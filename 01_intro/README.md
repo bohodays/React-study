@@ -40,3 +40,6 @@
 Tip
 <hr>
 Reactjs code snippets 확장을 설치하면 여러가지 유용한 snippet들을 사용할 수 있다. 주로 사용하는 건 rsc이다. rsc 누르고 탭하면 컴포넌트 스켈레톤 코드가 작성된다.
+
+
+
