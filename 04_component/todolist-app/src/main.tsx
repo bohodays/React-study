@@ -1,16 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App1'
-import App2 from './App2'
-import App3 from './App3'
+import AppContainer from './AppContainer'
+import 'bootstrap/dist/css/bootstrap.css'
 import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <App />
-    <br />
-    <App2 />
-    <br />
-    <App3 />
+    <AppContainer />
   </React.StrictMode>,
 )
