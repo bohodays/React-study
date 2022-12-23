@@ -156,3 +156,48 @@ const [state, dispatch] = useReducer(reducer, initialState);
 // initialValue: 참조 객체로 주어질 초기값;
 const refObject = useRef(initialValue);
 ```
+
+<br>
+
+### 6.6 메모이제이션 훅
+
+- 메모이제이션(memoization)이란 기존에 연산된 결과값을 메모리에 캐싱하고, 동일한 입력과 환경에서 재사용하는 기법을 말한다. 이 기법을 적절히 사용하면 중복 처리를 피할 수 있어서 애플리케이션의 성능을 최적화할 때 종종 사용한다. 메모이제이션 기능을 제공하는 리액트 훅은 useMemo와 useCallback으로 두 가지가 있다.
+  - useMemo
+    - useMemo는 함수가 호출되고 연산된 리턴값을 캐싱하여 재사용한다. 캐싱되는 것은 함수를 호출한 후의 리턴값이다.
+  - useCallback
+    - useCallback은 컴포넌트 내부의 함수를 캐싱하고, 렌더링할 때마다 함수가 생성되지 않게 재사용한다. 캐싱되는 것은 컴포넌트 내부의 함수다.
+
+<br>
+
+### 6.6.1 useMemo 훅 적용
+
+- useMemo의 사용법은 다음과 같다.
+
+```javascript
+// factory : 캐싱할 값을 만들어내는 함수이다.
+// depsList : 의존 객체 배열로, 이 배열의 값이 바뀌기 전까지는 캐시를 유지한다.
+// 캐싱할 값은 제네릭으로 T에 타입을 지정한다.
+const memoizedValue = useMemo<T>(factory: () => T, depsList);
+```
+
+- 여기서 중요한 것은 depsList 의존 객체 배열입니다. 이 배열에 지정된 값이 바뀌기 전까지는 캐시를 유지한다.
+
+<br>
+
+### 6.6.2 useCallback 훅 적용
+
+- useCallback 훅은 컴포넌트 내부의 함수를 캐싱하여 다시 렌더링되더라도 함수를 매번 생성하지 않도록 해준다. useMemo 훅의 캐싱 대상이 함수의 리턴값이라면 useCallback 훅은 캐싱 대상이 컴포넌트 내부의 함수인 것이다. useCallback 훅의 사용 방법은 다음과 같다.
+
+```javascript
+// callback : 캐싱하려는 대상 함수이다.
+// depsList : 함수를 캐싱할 때 의존 객체 배열이다. 이 배열의 값에 변화가 없으면 함수를 새로 만들지 않는다.
+const memoizedCallback = useCallback(callback, depsList);
+```
+
+- 한 가지 주의할 점은 useCallback의 두 번째 인자인 의존 객체 배열을 적절하게 지정해야 한다는 점이다. 왜냐하면 useCallback 훅에 의해 캐싱된 함수는 함수가 생성될 때의 상태나 속성을 참조하기 때문이다.
+
+<br>
+
+### 6.7 사용자 정의 훅
+
+- 사용자 정의 훅(custom hook)은 개발자가 직접 작성하는 리액트 훅이다. 여러 컴포넌트에서 필요로 하는 코드와 기능을 재사용하기 위해 사용자 정의 훅을 작성할 수 있다.
