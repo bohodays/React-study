@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 
 const Header = () => {
   return (
@@ -13,18 +13,38 @@ const Header = () => {
         </p>
         <div className='row'>
           <div className="col-12">
-            <Link className='btn btn-success menu' to="/">
+            {/* <Link className='btn btn-success menu' to="/">
               Home
-            </Link>
-            <Link className='btn btn-success menu' to='/about'>
+            </Link> */}
+            <NavLink to='/home' className={({ isActive }) => {
+              return isActive ? "btn menu btn-dark" : "btn menu btn-success";
+            }}>
+              Home
+            </NavLink>
+            {/* <Link className='btn btn-success menu' to='/about'>
               About
-            </Link>
-            <Link className='btn btn-success menu' to='/members'>
+            </Link> */}
+            <NavLink to='/about' className={({ isActive }) => {
+              return isActive ? "btn menu btn-dark" : "btn menu btn-success";
+            }}>
+              About
+            </NavLink>
+            {/* <Link className='btn btn-success menu' to='/members'>
               Members
-            </Link>
-            <Link className='btn btn-success menu' to='/songs'>
+            </Link> */}
+            <NavLink to='/members' className={({ isActive }) => {
+              return isActive ? "btn menu btn-dark" : "btn menu btn-success";
+            }}>
+              Members
+            </NavLink>
+            {/* <Link className='btn btn-success menu' to='/songs'>
               Songs
-            </Link>
+            </Link> */}
+            <NavLink to='/songs' className={({ isActive }) => {
+              return isActive ? "btn menu btn-dark" : "btn menu btn-success";
+            }}>
+              Songs
+            </NavLink>
           </div>
         </div>
       </div>
