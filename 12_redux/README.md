@@ -56,3 +56,62 @@
   ```
 
 <br>
+
+- 액션 → 미들웨어 → 리듀서 → 스토어
+
+<br>
+
+- 리덕스 미들웨어를 사용하면 디스패치 된 다음, 리듀서에서 해당 액션을 받아와서 업데이트하기 전에 추가적인 작업을 할 수 있다.
+  - 특저 조건에 따라 액션이 무시되게 만들 수 있다.
+  - 액션을 콘솔에 출력하거나, 서버쪽에 로깅할 수 있다.
+  - 액션이 디스패치 됐을 때 이를 수정해서 리듀서에게 전달되도록 할 수 있다.
+  - 특정 액션이 발생했을 때 이에 기반하여 다른 액션이 발생되도록 할 수 있다.
+  - 특정 액션이 발생했을 때 자바스크립트 함수를 실행시킬 수 있다.
+
+<br>
+
+- 리덕스
+  1. 액션 타입 정하기
+  2. 액션 생성 함수 만들기 (type, payload)
+  3. 리듀서 만들기
+  4. 루트 리듀서 만들기
+
+<br>
+
+- 상태 변화 감지
+  - redux-logger를 통해 상태변화를 확인할 수 있다. 단점은 console이 너무 많이 찍힐 수 있다.
+  - logger를 사용하는 경우, logger가 applyMiddleware에서 가장 마지막에 와야한다.
+    - `npm i redux-logger`
+    - _`import_ logger _from_ "redux-logger";`
+    - `const store = createStore(rootReducer, applyMiddleware(logger));`
+  - devTools를 통해서도 상태변화를 확인할 수 있다.
+    - `npm i redux-devtools-extension`
+      ```
+      const store = createStore(
+        rootReducer,
+        composeWithDevTools(applyMiddleware(logger))
+      );
+      ```
+    - 버전이 바뀌어서 지금은 아래와 같이 해야된다고 함
+      - `npm i @redux-devtools/extension`
+      - `import { composeWithDevTools } from ‘@redux-devtools/extension’;`
+
+<br>
+
+- Redux-Thunk
+  - 리덕스에서 비동기 작업을 처리할 때 가장 많이 사용하는 미들웨어
+  - 이 미들웨어를 사용하면 액션 객체가 아닌 함수를 디스패치할 수 있다.
+  - 지연된 연산을 실행하기 위해 표현식으로 만든 함수
+    1. dispatch(action)이 호출되면서 스토어로 액션이 전달된다.
+    2. redux-thunk 미들웨어를 거치면서 전달된 액션이 thunk 형태의 함수인지를 확인한다.
+    3. 이때 thunk라면 thunk() 함수 내부에서 비동기 처리 코드를 실행하고, 이 과정에서 상태를 변경할 수 있는 액션을 전달한다.
+    4. 이 함수 내부에서 비동기 처리가 시작되었음을 나타내기 위한 상태 변경 액션을 전달(dispatch)한다.
+    5. 비동기 처리가 완료되면 처리 결과를 화면에 나타내기 위한 상태 변경 액션을 전달(dispatch)한다.
+    6. thunk가 아니라면 next(action)을 호출해 리듀서가 새로운 상태를 만들어내도록 한다.
+
+<br>
+
+- 정리하자면 액션이 비동기 처리 코드를 포함한 thunk이면 thunk를 바로 호출하고 비동기 처리가 진행되는 동안 dispatch(action)로 처리 과정 중의 상태를 변경하게 된다. 일반적으로 상태 변경이 필요한 시점은 다음과 같다.
+  - 작업 요청을 시작하는 시점
+  - 작업이 성공적으로 완료된 시점
+  - 작업이 실패한 시점
